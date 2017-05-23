@@ -35,7 +35,7 @@ options = {
 MAP_BUILDER.use_trajectory_builder_3d = true
 MAP_BUILDER.num_background_threads = 30
 
-MAX_3D_LASER_RANGE = 3.5
+MAX_3D_LASER_RANGE = 5
 TRAJECTORY_BUILDER_3D.min_range = 0.1
 TRAJECTORY_BUILDER_3D.max_range = MAX_3D_RANGE
 TRAJECTORY_BUILDER_3D.low_resolution_adaptive_voxel_filter.max_range = MAX_3D_RANGE

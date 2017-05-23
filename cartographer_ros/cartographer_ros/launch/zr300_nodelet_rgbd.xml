@@ -20,15 +20,18 @@
   <arg name="depth_height"    default="480" />
   <arg name="depth_fps"       default="30" />
   <arg name="color_fps"       default="30" />
+  <arg name="fisheye_fps"     default="30" />
+  <arg name="fisheye_strobe"  default="1" />
+  <arg name="fisheye_external_trigger" default="1" />
   
   <arg name="enable_ir"       default="false" />
   <arg name="enable_ir2"      default="false" />
-  <arg name="enable_fisheye"  default="false" />
+  <arg name="enable_fisheye"  default="true" />
   <arg name="enable_imu"      default="true" />
 
   <!-- Arguments for remapping all device namespaces -->
   <arg name="depth"            default="depth" />
-  <arg name="rgb"              default="rgb" />
+  <arg name="rgb"              default="color" />
   <arg name="ir"               default="ir" />
   <arg name="depth_registered" default="depth_registered" />
 
@@ -70,6 +73,13 @@
       <arg name="debug"               value="$(arg debug)" />
       <arg name="num_worker_threads"  value="$(arg num_worker_threads)" />
     </include>
+
+
+
+    <param name="$(arg camera)/driver/fisheye_fps"       type="int"  value="$(arg fisheye_fps)" />
+    <param name="$(arg camera)/driver/fisheye_strobe"    type="int"  value="$(arg fisheye_strobe)" />
+    <param name="$(arg camera)/driver/fisheye_external_trigger"    type="int"  value="$(arg fisheye_external_trigger)" />
+
 
     <!-- Load driver -->
     <include if="$(arg load_driver)"
