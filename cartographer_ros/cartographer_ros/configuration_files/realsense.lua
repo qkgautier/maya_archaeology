@@ -33,7 +33,7 @@ options = {
 }
 
 MAP_BUILDER.use_trajectory_builder_3d = true
-MAP_BUILDER.num_background_threads = 30
+MAP_BUILDER.num_background_threads = 8
 
 MAX_3D_LASER_RANGE = 5
 TRAJECTORY_BUILDER_3D.min_range = 0.1
@@ -46,8 +46,8 @@ TRAJECTORY_BUILDER_3D.submaps.high_resolution_max_range = MAX_3D_RANGE
 
 TRAJECTORY_BUILDER_3D.motion_filter.max_time_seconds = 0.25
 TRAJECTORY_BUILDER_3D.motion_filter.max_angle_radians = math.rad(0.1)
-TRAJECTORY_BUILDER_3D.submaps.high_resolution = 0.035
-TRAJECTORY_BUILDER_3D.submaps.low_resolution = 0.2
+-- TRAJECTORY_BUILDER_3D.submaps.high_resolution = 0.035
+-- TRAJECTORY_BUILDER_3D.submaps.low_resolution = 0.2
 
 TRAJECTORY_BUILDER_3D.ceres_scan_matcher.occupied_space_weight_0 = 10.
 TRAJECTORY_BUILDER_3D.ceres_scan_matcher.occupied_space_weight_1 = 15.
