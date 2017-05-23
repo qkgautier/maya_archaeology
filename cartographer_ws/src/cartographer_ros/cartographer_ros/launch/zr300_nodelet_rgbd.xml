@@ -61,7 +61,9 @@
 
   <!-- Worker threads for the nodelet manager -->
   <arg name="num_worker_threads" default="4" />
-
+	
+  <param name="$(arg camera)/driver/r200_lr_auto_exposure_enabled" type="int"  value="1" />
+  
   <!-- Push down all topics/nodelets into "camera" namespace -->
   <group ns="$(arg camera)">
 
@@ -79,7 +81,6 @@
     <param name="$(arg camera)/driver/fisheye_fps"       type="int"  value="$(arg fisheye_fps)" />
     <param name="$(arg camera)/driver/fisheye_strobe"    type="int"  value="$(arg fisheye_strobe)" />
     <param name="$(arg camera)/driver/fisheye_external_trigger"    type="int"  value="$(arg fisheye_external_trigger)" />
-
 
     <!-- Load driver -->
     <include if="$(arg load_driver)"
