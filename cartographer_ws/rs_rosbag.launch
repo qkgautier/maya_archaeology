@@ -1,5 +1,5 @@
 <launch>
-  <arg name="record_prefix" default="/home/e4e/rosbags/record" />
+  <arg name="record_prefix" default="realsense" />
   <arg name="record_all" default="false" />
 
   <group if="$(arg record_all)">
