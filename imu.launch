@@ -1,0 +1,12 @@
+<launch>
+
+  <node pkg="tinkerforge_sensors" type="tinkerforge_sensors_node" name="imu_node">
+    <param name="rate" type="int" value="500"/>
+  </node>
+
+  <include file="$(find realsense_camera)/launch/zr300_nodelet_default.launch"></include>
+
+  <node pkg="tf" type="static_transform_publisher" name="rgb_to_imu_tf"
+        args="0.0 0.0 0.0 0.0 0.0 0.0 camera_rgb_frame imu_link 100" />
+
+</launch>
