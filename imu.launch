@@ -1,7 +1,8 @@
 <launch>
 
-  <node pkg="tinkerforge_sensors" type="tinkerforge_sensors_node" name="imu_node">
+  <node pkg="tinkerforge_sensors" type="tinkerforge_sensors_node" name="imu_node" output="screen">
     <param name="rate" type="int" value="500"/>
+	<rosparam param="sensor_conf" file="conf.yaml" />
   </node>
 
 
