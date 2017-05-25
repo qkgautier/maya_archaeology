@@ -24,18 +24,25 @@
   <arg name="playback_file" default="" />
   -->
 
-  <include file="$(find kinect2_bridge)/launch/kinect2_bridge.launch">
-    <arg name="publish_tf" value="true" />
+  <include file="$(find freenect_launch)/launch/freenect.launch">
   </include>
 
-  <include file="$(find tinkerforge_sensors)/launch/tinkerforge_sensors.launch" />
+
+  <node pkg="tinkerforge_sensors" type="tinkerforge_sensors_node" name="imu_node">
+    <param name="rate" type="int" value="500"/>
+  </node>
+
+
+  <node pkg="tf" type="static_transform_publisher" name="rgb_to_imu_tf"
+        args="0.0 0.0 0.0 0.0 0.0 0.0 camera_rgb_frame imu_link 100" />
+
 
   <node name="cartographer_node" pkg="cartographer_ros"
       type="cartographer_node" args="
           -configuration_directory $(find cartographer_ros)/configuration_files
-          -configuration_basename kinectv2.lua"
+          -configuration_basename kinectv1.lua"
       output="screen">
-    <remap from="points2" to="/kinect2/sd/points" />
+    <remap from="points2" to="/camera/depth/points" />
     <remap from="imu" to="/tfsensors/imu1" />
   </node>
 
