@@ -1,0 +1,20 @@
+<launch> 
+  <param name="orb_use_viewer" value="false"/>
+
+  <node pkg="ORB_SLAM2" type="RGBD" name="ORB_SLAM2" 
+        args="/home/e4e/workspace/ORB_SLAM2/Vocabulary/ORBvoc.txt 
+         /home/e4e/workspace/ORB_SLAM2/Examples/RGB-D/TUM1.yaml" cwd="node" output="screen"/> 
+
+  <include file="$(find freenect_launch)/launch/freenect.launch"> 
+    <!-- use device registration --> 
+    <arg name="depth_registration" value="true" /> 
+    <arg name="rgb_processing" value="true" /> 
+    <arg name="ir_processing" value="false" /> 
+    <arg name="depth_processing" value="false" /> 
+    <arg name="depth_registered_processing" value="true" /> 
+    <arg name="disparity_processing" value="false" /> 
+    <arg name="disparity_registered_processing" value="false" /> 
+    <arg name="sw_registered_processing" value="false" /> 
+    <arg name="hw_registered_processing" value="true" /> 
+  </include> 
+</launch>

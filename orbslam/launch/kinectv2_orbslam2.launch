@@ -1,0 +1,19 @@
+<launch> 
+  <param name="orb_use_viewer" value="false"/>
+
+  
+  <include file="$(find kinect2_bridge)/launch/kinect2_bridge.launch">
+    <arg name="publish_tf" value="true"/>
+  </include>
+
+  <node pkg="ORB_SLAM2" type="RGBD" name="ORB_SLAM2" 
+        args="/home/e4e/workspace/ORB_SLAM2/Vocabulary/ORBvoc.txt /home/e4e/workspace/ORB_SLAM2/Examples/RGB-D/002712263847.yaml"
+		cwd="node" output="screen">
+
+    <remap from="/camera/rgb/image_raw" to="/kinect2/qhd/image_color_rect" />
+    <remap from="camera/depth_registered/image_raw" to="/kinect2/qhd/image_depth_rect" />
+  </node>
+
+
+
+</launch>
