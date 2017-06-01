@@ -17,6 +17,7 @@ class SubscribeAndPublish
 
 		void callback(const sensor_msgs::Imu::ConstPtr& input)
 		{
+			if(input->header.stamp < msg.header.stamp){ ROS_WARN("Dropping IMU data"); return; };
 			if(msg_sent){ msg = *input; msg_sent = false; }
 			else
 			{
