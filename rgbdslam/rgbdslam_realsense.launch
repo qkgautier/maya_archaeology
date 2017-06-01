@@ -1,0 +1,72 @@
+<!-- This file shows the most important parameters in their default settings,
+     to make them easily available for beginners.
+
+     The openni driver is started automatically -->
+<launch>
+   
+  <arg name="record" default="true" />
+  <arg name="record_prefix" default="realsense" />
+
+  <arg name="playback" default="false" />
+  <arg name="playback_file" default="" />
+
+
+  <node pkg="rosbag" type="record" name="rosbag_record_realsense"
+        args="-o $(arg record_prefix)
+		      /camera/color/camera_info
+              /camera/color/image_raw
+              /camera/depth/camera_info
+              /camera/depth/image_raw
+              /camera/driver/parameter_descriptions
+              /camera/driver/parameter_updates
+              /camera/fisheye/camera_info
+              /camera/fisheye/image_raw
+              /camera/imu/data_raw
+              /camera/nodelet_manager/bond
+              /tf
+              /tf_static"
+        if="$(arg record)"/>
+
+
+
+  <include file="zr300_nodelet_rgbd.xml">
+    <arg name="load_driver" value="false" if="$(arg playback)" />
+  </include>
+
+
+
+  
+  <node pkg="rgbdslam" type="rgbdslam" name="rgbdslam" cwd="node" required="true" output="screen"> 
+    <!-- Input data settings-->
+    <param name="config/topic_image_mono"              value="/camera/color/image_rect_color"/>
+	<param name="config/camera_info_topic"             value="/camera/color/camera_info"/>
+    <param name="config/topic_image_depth"             value="/camera/depth_registered/sw_registered/image_rect_raw"/>
+	<param name="config/topic_points"                  value=""/> <!--if empty, poincloud will be reconstructed from image and depth -->
+
+    <!-- These are the default values of some important parameters -->
+    <param name="config/feature_extractor_type"        value="ORB"/><!-- also available: SIFT, SIFTGPU, SURF, SURF128 (extended SURF), ORB. -->
+    <param name="config/feature_detector_type"         value="ORB"/><!-- also available: SIFT, SURF, GFTT (good features to track), ORB. -->
+    <param name="config/detector_grid_resolution"      value="3"/><!-- detect on a 3x3 grid (to spread ORB keypoints and parallelize SIFT and SURF) -->
+    <param name="config/max_keypoints"                 value="600"/><!-- Extract no more than this many keypoints -->
+    <param name="config/max_matches"                   value="300"/><!-- Keep the best n matches (important for ORB to set lower than max_keypoints) -->
+
+    <param name="config/min_sampled_candidates"        value="4"/><!-- Frame-to-frame comparisons to random frames (big loop closures) -->
+    <param name="config/predecessor_candidates"        value="4"/><!-- Frame-to-frame comparisons to sequential frames-->
+    <param name="config/neighbor_candidates"           value="4"/><!-- Frame-to-frame comparisons to graph neighbor frames-->
+    <param name="config/ransac_iterations"             value="100"/>
+    <param name="config/cloud_creation_skip_step"      value="2"/><!-- subsample the images' pixels (in both, width and height), when creating the cloud (and therefore reduce memory consumption) -->
+
+    
+    <param name="config/cloud_display_type"            value="POINTS"/><!-- Show pointclouds as points (as opposed to TRIANGLE_STRIP) -->
+    <param name="config/pose_relative_to"              value="largest_loop"/><!-- optimize only a subset of the graph: "largest_loop" = Everything from the earliest matched frame to the current one. Use "first" to optimize the full graph, "inaffected" to optimize only the frames that were matched (not those inbetween for loops) -->
+    <param name="config/backend_solver"                value="pcg"/><!-- pcg is faster and good for continuous online optimization, cholmod and csparse are better for offline optimization (without good initial guess)-->
+    <param name="config/optimizer_skip_step"           value="1"/><!-- optimize only every n-th frame -->
+
+  </node>
+
+  <node pkg="rosbag" type="play" name="rosbag_play_realsense"
+        args="$(arg playback_file) -d 2 --clock"
+		if="$(arg playback)" />
+
+
+</launch>

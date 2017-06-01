@@ -1,0 +1,18 @@
+<launch> 
+  <param name="orb_use_viewer" value="false"/>
+
+  
+  <include file="zr300_nodelet_rgbd.xml">
+  </include>
+
+  <node pkg="ORB_SLAM2" type="RGBD" name="ORB_SLAM2" 
+        args="/home/e4e/workspace/ORB_SLAM2/Vocabulary/ORBvoc.txt /home/e4e/workspace/ORB_SLAM2/Examples/RGB-D/zr300_1.yaml"
+		cwd="node" output="screen">
+
+    <remap from="/camera/rgb/image_raw" to="/camera/color/image_rect_color" />
+    <remap from="camera/depth_registered/image_raw" to="/camera/depth_registered/sw_registered/image_rect_raw" />
+  </node>
+
+
+
+</launch>
