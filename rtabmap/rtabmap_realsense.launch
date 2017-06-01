@@ -59,5 +59,6 @@
       <remap from="/camera/color/image_raw/compressed" to="/compressed/color/image_raw/compressed" />
       <remap from="/camera/fisheye/image_raw/compressed" to="/compressed/fisheye/image_raw/compressed" />
     </node>
+  </group>
 
 </launch>
