@@ -40,6 +40,7 @@
     <arg name="rgb_topic"         value="/camera/rgb/image_rect_color" />
     <arg name="depth_topic"       value="/camera/depth_registered/image_raw" />
     <arg name="camera_info_topic" value="/camera/rgb/camera_info" />
+	<arg name="database_path"     value="~/.ros/rtabmap.db" />
   </include>
   
 

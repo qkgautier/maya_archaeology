@@ -1,0 +1,2 @@
+LiPo charge 20A (numBatteries * 5A) 3S
+Push & hold start until beep
