@@ -1,19 +1,3 @@
-<!--
-  Copyright 2016 The Cartographer Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
--->
-
 <launch>
   
   <arg name="record" default="true" />
@@ -23,6 +7,23 @@
   <arg name="playback_file" default="" />
 
   <arg name="imu_cache" default="true"/>
+
+
+  <node pkg="rosbag" type="record" name="rosbag_record_realsense"
+        args="-o $(arg record_prefix)
+		      /camera/color/camera_info
+              /camera/color/image_raw/compressed
+              /camera/depth/camera_info
+              /camera/depth/image_raw
+              /camera/driver/parameter_descriptions
+              /camera/driver/parameter_updates
+              /camera/fisheye/camera_info
+              /camera/fisheye/image_raw/compressed
+              /camera/imu/data_raw
+              /camera/nodelet_manager/bond
+              /tf
+              /tf_static"
+        if="$(arg record)" />
 
 
   <include file="$(find cartographer_ros)/launch/zr300_nodelet_rgbd.xml">
@@ -49,25 +50,23 @@
       args="-d $(find cartographer_ros)/configuration_files/realsense.rviz" />
 
 
-  <node pkg="rosbag" type="record" name="rosbag_record_realsense"
-        args="-o $(arg record_prefix)
-		      /camera/color/camera_info
-              /camera/color/image_raw
-              /camera/depth/camera_info
-              /camera/depth/image_raw
-              /camera/driver/parameter_descriptions
-              /camera/driver/parameter_updates
-              /camera/fisheye/camera_info
-              /camera/fisheye/image_raw
-              /camera/imu/data_raw
-              /camera/nodelet_manager/bond
-              /tf
-              /tf_static"
-        if="$(arg record)" />
 
-  <node pkg="rosbag" type="play" name="rosbag_play_realsense"
-        args="$(arg playback_file) -d 2 --clock"
-		if="$(arg playback)" />
+  <group if="$(arg playback)">
+    
+	<node pkg="image_transport" type="republish" name="decompress_image"
+          args="compressed in:=/compressed/color/image_raw out:=/camera/color/image_raw" />
+	
+	<!--
+	<node pkg="image_transport" type="republish" name="decompress_fisheye"
+          args="compressed in:=/compressed/fisheye/image_raw out:=/camera/fisheye/image_raw" />
+    -->
+
+    <node pkg="rosbag" type="play" name="rosbag_play_realsense"
+          args="$(arg playback_file) -d 2 --clock">
+      <remap from="/camera/color/image_raw/compressed" to="/compressed/color/image_raw/compressed" />
+      <remap from="/camera/fisheye/image_raw/compressed" to="/compressed/fisheye/image_raw/compressed" />
+    </node>
+  </group>
 
 
 </launch>
