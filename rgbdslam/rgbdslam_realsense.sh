@@ -2,4 +2,4 @@
 
 roslaunch rgbdslam_realsense.launch
 
-
+sleep 5
