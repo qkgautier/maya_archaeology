@@ -6,6 +6,7 @@
   <arg name="playback" default="false" />
   <arg name="playback_file" default="" />
 
+  <arg name="filtering" default="3" />
 
 
   <node pkg="rosbag" type="record" name="rosbag_record_realsense"
@@ -28,6 +29,7 @@
 
   <include file="zr300_nodelet_rgbd.xml">
     <arg name="load_driver" value="false" if="$(arg playback)" />
+    <arg name="r200_dc_preset" value="$(arg filtering)" />
   </include>
 
   
