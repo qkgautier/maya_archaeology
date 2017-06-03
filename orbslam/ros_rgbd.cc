@@ -77,12 +77,23 @@ int main(int argc, char **argv)
     // Stop all threads
     SLAM.Shutdown();
 
-	std::stringstream ss;
-	ss << ros::Time::now() << ".txt";
-	std::string ss_str = ss.str();
+	{
+		std::stringstream ss;
+		ss << "ORBSLAM_KeyTraj_" << ros::Time::now() << ".txt";
+		std::string ss_str = ss.str();
 
-    // Save camera trajectory
-    SLAM.SaveKeyFrameTrajectoryTUM(ss_str.c_str());
+    	// Save camera trajectory
+    	SLAM.SaveKeyFrameTrajectoryTUM(ss_str.c_str());
+	}
+
+	{
+		std::stringstream ss;
+		ss << "ORBSLAM_Traj_" << ros::Time::now() << ".txt";
+		std::string ss_str = ss.str();
+
+    	// Save camera trajectory
+    	SLAM.SaveTrajectoryTUM(ss_str.c_str());
+	}
 
     ros::shutdown();
 
