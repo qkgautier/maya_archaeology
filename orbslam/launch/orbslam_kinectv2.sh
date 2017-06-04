@@ -1,5 +1,5 @@
 #!/bin/bash
 
-roslaunch kinectv2_orbslam2.launch
+roslaunch kinectv2_orbslam2.launch "$@"
 
 

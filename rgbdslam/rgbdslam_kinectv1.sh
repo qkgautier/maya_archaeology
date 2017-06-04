@@ -1,5 +1,5 @@
 #!/bin/bash
 
-roslaunch rgbdslam_kinectv1.launch
+roslaunch rgbdslam_kinectv1.launch "$@"
 
 
