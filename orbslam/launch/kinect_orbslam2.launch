@@ -45,16 +45,14 @@
 
     
     <remap from="/camera/rgb/image_raw" to="/camera/rgb/image_raw" />
-    <remap from="camera/depth_registered/image_raw" to="/camera/depth_registered/image_raw" />
+    <remap from="/camera/depth_registered/image_raw" to="/camera/depth_registered/image_raw" />
   </node>
-
-
 
 
   <group if="$(arg playback)">
     
 	<node pkg="image_transport" type="republish" name="decompress_image"
-          args="compressed in:=/compressed/rgb/image_rect_color out:=/camera/rgb/image_rect_color" />
+          args="compressed in:=/compressed/rgb/image_rect_color out:=/camera/rgb/image_raw" />
 	
     <node pkg="rosbag" type="play" name="rosbag_play_kinectv1"
           args="$(arg playback_file) -d 2 --clock">

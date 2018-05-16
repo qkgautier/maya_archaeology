@@ -17,7 +17,7 @@
               /kinect2/qhd/camera_info
               /kinect2/qhd/image_color_rect/compressed
               /kinect2/qhd/image_depth_rect
-			  /tfsensors/imu1
+	      /tfsensors/imu1
               /tf
               /tf_static"
         if="$(arg record)"/>
@@ -25,7 +25,9 @@
 
   <include unless="$(arg playback)"
            file="$(find kinect2_bridge)/launch/kinect2_bridge.launch">
-    <arg name="publish_tf" value="true" />
+        <arg name="depth_method" value="opengl" />
+	<arg name="reg_method" value="cpu" />
+	<arg name="publish_tf" value="true" />
     <arg name="max_depth" value="8" />
   </include>
 
@@ -55,14 +57,18 @@
 		cwd="node" output="screen">
 
     <remap from="/camera/rgb/image_raw" to="/kinect2/qhd/image_color_rect" />
-    <remap from="camera/depth_registered/image_raw" to="/kinect2/qhd/image_depth_rect" />
+    <remap from="/camera/depth_registered/image_raw" to="/kinect2/qhd/image_depth_rect" />
   </node>
 
-
-  <!--
-  <node pkg="rosbag" type="play" name="rosbag_play_kinectv2"
-        args="$(arg playback_file) -d 2 <DOUBLE DASH>clock"
-		if="$(arg playback)" />
-  -->
+  <group if="$(arg playback)">
+    
+	<node pkg="image_transport" type="republish" name="decompress_image"
+          args="compressed in:=/compressed/rgb/image_rect_color out:=/kinect2/qhd/image_color_rect" />
+	
+    <node pkg="rosbag" type="play" name="rosbag_play_kinectv2"
+          args="$(arg playback_file) -d 2 --clock">
+	<remap from="/kinect2/qhd/image_color_rect/compressed" to="/compressed/rgb/image_rect_color/compressed" />
+    </node>
+  </group>
 
 </launch>
