@@ -11,9 +11,9 @@ class Node
  public:
   Node()
   {
-    sub_1_.subscribe(nh_, "in1", 1);
-    sub_2_.subscribe(nh_, "in2", 1);
-    sub_3_.subscribe(nh_, "in3", 1);
+    sub_1_.subscribe(nh_, "/real_camera/color/image_raw", 1);
+    sub_2_.subscribe(nh_, "/kinect_camera1/rgb/image_raw", 1);
+    sub_3_.subscribe(nh_, "/kinect_camera2/rgb/image_raw", 1);
     sync_.reset(new Sync(MySyncPolicy(10), sub_1_, sub_2_, sub_3_));
     sync_->registerCallback(boost::bind(&Node::callback, this, _1, _2, _3));
   }
@@ -21,9 +21,9 @@ class Node
   void callback(const sensor_msgs::ImageConstPtr &in1, const sensor_msgs::ImageConstPtr &in2, const sensor_msgs::ImageConstPtr &in3)
   {
     ROS_INFO("Synchronization successful");
-    nh_.advertise<sensor_msgs::Image>("out1", 5).publish(in1);
-    nh_.advertise<sensor_msgs::Image>("out2", 5).publish(in2);
-    nh_.advertise<sensor_msgs::Image>("out3", 5).publish(in3);
+    nh_.advertise<sensor_msgs::Image>("/real_camera/image_raw", 5).publish(in1);
+    nh_.advertise<sensor_msgs::Image>("/kinect_camera1/image_raw", 5).publish(in2);
+    nh_.advertise<sensor_msgs::Image>("/kinect_camera2/image_raw", 5).publish(in3);
   }
 
  private:
