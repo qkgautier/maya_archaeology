@@ -4,20 +4,23 @@
   <arg name="record_prefix" default="kinectv2" />
 
   <arg name="playback" default="false" />
-  <!--
   <arg name="playback_file" default="" />
-  -->
+
+	<!-- Kill the application at the end of the playback-->
+  <arg name="playback_kill" default="false" />
+
+	<arg name="playback_speed" default="1.0" />
 
 
   <node pkg="rosbag" type="record" name="rosbag_record_kinectv2"
-        args="-o $(arg record_prefix)
+        args="-o /media/e4e/Data2/.ros/$(arg record_prefix)
               /kinect2/bond
               /kinect2/hd/camera_info
               /kinect2/hd/image_color/compressed
               /kinect2/qhd/camera_info
               /kinect2/qhd/image_color_rect/compressed
               /kinect2/qhd/image_depth_rect
-	      /tfsensors/imu1
+              /tfsensors/imu1
               /tf
               /tf_static"
         if="$(arg record)"/>
@@ -66,7 +69,8 @@
           args="compressed in:=/compressed/rgb/image_rect_color out:=/kinect2/qhd/image_color_rect" />
 	
     <node pkg="rosbag" type="play" name="rosbag_play_kinectv2"
-          args="$(arg playback_file) -d 2 --clock">
+          args="$(arg playback_file) -d 2 --clock --rate $(arg playback_speed)"
+					required="$(arg playback_kill)" >
 	<remap from="/kinect2/qhd/image_color_rect/compressed" to="/compressed/rgb/image_rect_color/compressed" />
     </node>
   </group>

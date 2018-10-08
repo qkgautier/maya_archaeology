@@ -6,11 +6,16 @@
   <arg name="playback" default="false" />
   <arg name="playback_file" default="" />
 
+	<!-- Kill the application at the end of the playback-->
+  <arg name="playback_kill" default="false" />
+
+	<arg name="playback_speed" default="1.0" />
+
   <arg name="SR300" default="false" />
 
 
   <node pkg="rosbag" type="record" name="rosbag_record_realsense"
-        args="-o $(arg record_prefix)
+        args="-o /media/e4e/Data2/.ros/$(arg record_prefix)
 		      /camera/color/camera_info
               /camera/color/image_raw/compressed
               /camera/depth/camera_info
@@ -67,7 +72,8 @@
     -->
 
     <node pkg="rosbag" type="play" name="rosbag_play_realsense"
-          args="$(arg playback_file) -d 2 --clock">
+          args="$(arg playback_file) -d 2 --clock --rate $(arg playback_speed)"
+					required="$(arg playback_kill)" >
       <remap from="/camera/color/image_raw/compressed" to="/compressed/color/image_raw/compressed" />
       <remap from="/camera/fisheye/image_raw/compressed" to="/compressed/fisheye/image_raw/compressed" />
     </node>
