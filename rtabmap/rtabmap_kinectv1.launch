@@ -6,14 +6,22 @@
   <arg name="playback" default="false" />
   <arg name="playback_file" default="" />
 
+	<!-- Kill the application at the end of the playback-->
+  <arg name="playback_kill" default="false" />
 
+	<arg name="playback_speed" default="1.0" />
+
+	<arg name="camera" default="camera" />
+
+
+	<param name="use_sim_time" value="true" if="$(arg playback)" />
 
   <node pkg="rosbag" type="record" name="rosbag_record_kinectv1"
-        args="-o $(arg record_prefix)
-              /camera/rgb/camera_info
-              /camera/rgb/image_rect_color/compressed
-              /camera/depth_registered/camera_info
-			  /camera/depth_registered/image_raw
+        args="-o /media/e4e/Data2/.ros/$(arg record_prefix)
+              /$(arg camera)/rgb/camera_info
+              /$(arg camera)/rgb/image_rect_color/compressed
+              /$(arg camera)/depth_registered/camera_info
+			  			/$(arg camera)/depth_registered/image_raw
               /tf
               /tf_static"
         if="$(arg record)"/>
@@ -37,22 +45,29 @@
 `
 
   <include file="$(find rtabmap_ros)/launch/rtabmap.launch">
-    <arg name="rgb_topic"         value="/camera/rgb/image_rect_color" />
-    <arg name="depth_topic"       value="/camera/depth_registered/image_raw" />
-    <arg name="camera_info_topic" value="/camera/rgb/camera_info" />
+    <arg name="rgb_topic"         value="/$(arg camera)/rgb/image_rect_color" />
+    <arg name="depth_topic"       value="/$(arg camera)/depth_registered/image_raw" />
+    <arg name="camera_info_topic" value="/$(arg camera)/rgb/camera_info" />
 	<arg name="database_path"     value="~/.ros/rtabmap.db" />
   </include>
   
-
   <group if="$(arg playback)">
     
+  <!-- Only needed when doing single-camera SLAM from a multi-camera bag file
+	<include file="camera_frames.launch" >
+		<arg name="camera" value="$(arg camera)" />
+	</include>
+  -->
+
 	<node pkg="image_transport" type="republish" name="decompress_image"
-          args="compressed in:=/compressed/rgb/image_rect_color out:=/camera/rgb/image_rect_color" />
+          args="compressed in:=/compressed/rgb/image_rect_color out:=/$(arg camera)/rgb/image_rect_color" />
 	
     <node pkg="rosbag" type="play" name="rosbag_play_kinectv1"
-          args="$(arg playback_file) -d 2 --clock">
-      <remap from="/camera/rgb/image_rect_color/compressed" to="/compressed/rgb/image_rect_color/compressed" />
+          args="$(arg playback_file) -d 2 --clock --rate $(arg playback_speed)"
+					required="$(arg playback_kill)" >
+      <remap from="/$(arg camera)/rgb/image_rect_color/compressed" to="/compressed/rgb/image_rect_color/compressed" />
     </node>
+
   </group>
 
 </launch>
