@@ -6,6 +6,11 @@
   <arg name="playback" default="false" />
   <arg name="playback_file" default="" />
 
+	<!-- Kill the application at the end of the playback-->
+  <arg name="playback_kill" default="false" />
+
+	<arg name="playback_speed" default="1.0" />
+
   <node pkg="rosbag" type="record" name="rosbag_record_realsense2"
         args="-o $(arg record_prefix)
               /aligned_depth_to_color/image_raw
@@ -26,7 +31,28 @@
 
   <param name="orb_use_viewer" value="false"/>
 
-  <include file="realsense2_v2.launch"/> 
+  <include file="$(find realsense2_camera)/launch/includes/nodelet.launch.xml" unless="$(arg playback)">
+	  <arg name="serial_no"     value="814412070369" />
+	  <arg name="align_depth"   value="true"/>
+	  <arg name="enable_sync"   value="true"/>
+
+	  <arg name="depth_width"   value="1280"/>
+  	  <arg name="depth_height"  value="720"/>
+  	  <arg name="enable_depth"  value="true"/>
+
+  	  <arg name="infra1_width"  value="1280"/>
+  	  <arg name="infra1_height" value="720"/>
+  	  <arg name="enable_infra1" value="false"/>
+
+  	  <arg name="infra2_width"  value="1280"/>
+  	  <arg name="infra2_height" value="720"/>
+  	  <arg name="enable_infra2" value="false"/>
+
+  	  <arg name="color_width"   value="1280"/>
+  	  <arg name="color_height"  value="720"/>
+  	  <arg name="enable_color"  value="true"/>
+  </include>
+
 
 
   <arg name="yaml_file" default="/home/e4e/workspace/ORB_SLAM2/Examples/RGB-D/d435_v2.yaml" />
@@ -51,7 +77,8 @@
     -->
 
     <node pkg="rosbag" type="play" name="rosbag_play_realsense2"
-          args="$(arg playback_file) -d 2 --clock">
+          args="$(arg playback_file) -d 2 --clock --rate $(arg playback_speed)"
+		  required="$(arg playback_kill)">
       <remap from="/color/image_raw/compressed" to="/compressed/color/image_raw/compressed" />
     </node>
   </group>
