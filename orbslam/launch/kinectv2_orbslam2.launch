@@ -56,7 +56,7 @@
 
 
   <node pkg="ORB_SLAM2" type="RGBD" name="ORB_SLAM2" 
-        args="/home/e4e/workspace/ORB_SLAM2/Vocabulary/ORBvoc.txt /home/e4e/workspace/ORB_SLAM2/Examples/RGB-D/002712263847.yaml"
+        args="/home/e4e/workspace/ORB_SLAM2/Vocabulary/ORBvoc.txt /home/e4e/workspace/ORB_SLAM2/Examples/RGB-D/kinectv2_generic.yaml"
 		cwd="node" output="screen">
 
     <remap from="/camera/rgb/image_raw" to="/kinect2/qhd/image_color_rect" />
@@ -71,7 +71,7 @@
     <node pkg="rosbag" type="play" name="rosbag_play_kinectv2"
           args="$(arg playback_file) -d 2 --clock --rate $(arg playback_speed)"
 					required="$(arg playback_kill)" >
-	<remap from="/kinect2/qhd/image_color_rect/compressed" to="/compressed/rgb/image_rect_color/compressed" />
+			<remap from="/kinect2/qhd/image_color_rect/compressed" to="/compressed/rgb/image_rect_color/compressed" />
     </node>
   </group>
 

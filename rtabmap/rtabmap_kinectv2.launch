@@ -41,11 +41,11 @@
 	<rosparam param="sensor_conf" file="$(find tinkerforge_sensors)/launch/conf.yaml" />
   </node>
 
-
+<!--
   <node pkg="tf" type="static_transform_publisher" name="rgb_to_imu_tf"
         args="0.0 0.0 0.0 0.0 0.0 1.5707963268 kinect2_ir_optical_frame imu_link 100" />
-  <!-- Current IMU configuration is -90 deg about X -->
-
+  <!-j- Current IMU configuration is -90 deg about X -j->
+-->
 
 `
 
