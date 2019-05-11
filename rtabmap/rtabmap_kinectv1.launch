@@ -23,7 +23,8 @@
               /$(arg camera)/depth_registered/camera_info
 			  			/$(arg camera)/depth_registered/image_raw
               /tf
-              /tf_static"
+              /tf_static
+							/counter"
         if="$(arg record)"/>
 
  
@@ -51,6 +52,10 @@
 	<arg name="database_path"     value="~/.ros/rtabmap.db" />
   </include>
   
+	<!-- Counting messages published to camera/rgb/image_rect_color to see if rosbag record is dropping any messages -->
+	<node pkg="message_counter" type="counter_one_topic" name="counter"
+					args="topic:=/$(arg camera)/rgb/image_rect_color/compressed" />
+
   <group if="$(arg playback)">
     
   <!-- Only needed when doing single-camera SLAM from a multi-camera bag file
@@ -58,7 +63,6 @@
 		<arg name="camera" value="$(arg camera)" />
 	</include>
   -->
-
 	<node pkg="image_transport" type="republish" name="decompress_image"
           args="compressed in:=/compressed/rgb/image_rect_color out:=/$(arg camera)/rgb/image_rect_color" />
 	
