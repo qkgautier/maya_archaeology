@@ -11,15 +11,15 @@ class Node
  public:
   Node()
   {
-    sub_1_.subscribe(nh_, "in1", 1);
-    sub_2_.subscribe(nh_, "in2", 1);
-    sub_3_.subscribe(nh_, "in3", 1);
+    sub_1_.subscribe(nh_, "/real_camera/color/image_raw", 1);
+    sub_2_.subscribe(nh_, "/kinect_camera1/rgb/image_raw", 1);
+    sub_3_.subscribe(nh_, "/kinect/camera2/image_raw", 1);
 
-		pub_1_ = nh_.advertise<sensor_msgs::Image>("out1", 5);
-		pub_2_ = nh_.advertise<sensor_msgs::Image>("out2", 5);
-		pub_3_ = nh_.advertise<sensor_msgs::Image>("out3", 5);
+		pub_1_ = nh_.advertise<sensor_msgs::Image>("/a_out1", 5);
+		pub_2_ = nh_.advertise<sensor_msgs::Image>("/a_out2", 5);
+		pub_3_ = nh_.advertise<sensor_msgs::Image>("/a_out3", 5);
 
-    sync_.reset(new Sync(MySyncPolicy(100), sub_1_, sub_2_, sub_3_));
+    sync_.reset(new Sync(MySyncPolicy(10), sub_1_, sub_2_, sub_3_));
     sync_->registerCallback(boost::bind(&Node::callback, this, _1, _2, _3));
   }
 

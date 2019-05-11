@@ -1,8 +1,8 @@
 <package format="2">
-  <name>sync_example</name>
+  <name>sync_hardcode</name>
   <version>0.0.1</version>
   <description>
-    Approximate time sync example.
+    Approximate time sync hardcode.
   </description>
   <author>Thomas Denewiler</author>
   <maintainer email="tdenewiler@gmail.com">Thomas Denewiler</maintainer>
