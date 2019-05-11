@@ -43,7 +43,7 @@
   
 	<!-- Recording data to .bag file -->
   <node pkg="rosbag" type="record" name="rosbag_record_two_kinectv1"
-	  args="-o /media/e4e/Data2/.ros/$(arg record_prefix)
+	  args="-o $(arg record_prefix)
 	  	/tf
 		/tf_static
 		/camera1/rgb/camera_info
