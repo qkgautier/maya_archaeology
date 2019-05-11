@@ -14,7 +14,7 @@
 
 
   <node pkg="rosbag" type="record" name="rosbag_record_kinectv1"
-        args="-o /media/e4e/Data2/.ros/$(arg record_prefix)
+        args="-o $(arg record_prefix)
               /camera/rgb/camera_info
               /camera/rgb/image_rect_color/compressed
               /camera/depth_registered/camera_info

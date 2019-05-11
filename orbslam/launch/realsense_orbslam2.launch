@@ -15,7 +15,7 @@
 
 
   <node pkg="rosbag" type="record" name="rosbag_record_realsense"
-        args="-o /media/e4e/Data2/.ros/$(arg record_prefix)
+        args="-o $(arg record_prefix)
 		      /camera/color/camera_info
               /camera/color/image_raw/compressed
               /camera/depth/camera_info
