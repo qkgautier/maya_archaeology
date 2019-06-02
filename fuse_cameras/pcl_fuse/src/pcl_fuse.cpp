@@ -190,7 +190,7 @@ public:
 		publish_();
 
 		// Project points to depth map
-		depth_creator_.pointsToDepthMap(fused_cloud_, depth_intr_, depth_map_, tangodata::DEPTH_INTERP_NN);
+		depth_creator_.pointsToDepthMap(fused_cloud_, depth_intr_, depth_map_, tangodata::DEPTH_INTERP_BILINEAR);
 
 
         ros::Time time = ros::Time::now();

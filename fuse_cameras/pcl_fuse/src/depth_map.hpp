@@ -198,7 +198,8 @@ struct DepthMapCreator
 		{
 			std::vector<DepthType> depth_map_interp;
 			interpolateBilinear(depth_intr, depth_map, depth_map_interp);
-			depth_map_interp.swap(depth_map);
+			//depth_map_interp.swap(depth_map);
+			depth_map = depth_map_interp;
 		}
 	}
 
