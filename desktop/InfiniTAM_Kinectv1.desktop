@@ -8,6 +8,6 @@ Icon[en_US]=gnome-panel-launcher
 Name[en_US]=InfiniTAM_Kinectv1
 #Exec=bash -c "source ~/.bashrc && /home/e4e/workspace/tango/InfiniTAM/launch/infinitam_kinectv1.sh"
 Exec=bash -c "source ~/.bashrc && /home/e4e/workspace/maya_archaeology/infinitam/infinitam_kinectv1.sh"
-Path=/home/e4e/workspace/tango/InfiniTAM/launch
+Path=/home/e4e/workspace/maya_archaeology/infinitam/
 Name=InfiniTAM_Kinectv1
 Icon=gnome-panel-launcher
