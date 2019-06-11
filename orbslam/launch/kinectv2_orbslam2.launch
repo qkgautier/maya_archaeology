@@ -28,8 +28,6 @@
 
   <include unless="$(arg playback)"
            file="$(find kinect2_bridge)/launch/kinect2_bridge.launch">
-        <arg name="depth_method" value="opengl" />
-	<arg name="reg_method" value="cpu" />
 	<arg name="publish_tf" value="true" />
     <arg name="max_depth" value="8" />
   </include>
