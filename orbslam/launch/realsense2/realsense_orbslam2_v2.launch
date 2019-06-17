@@ -40,12 +40,9 @@
   	  <arg name="depth_height"  value="720"/>
   	  <arg name="enable_depth"  value="true"/>
 
-  	  <arg name="infra1_width"  value="1280"/>
-  	  <arg name="infra1_height" value="720"/>
+  	  <arg name="infra_width"   value="1280"/>
+  	  <arg name="infra_height"  value="720"/>
   	  <arg name="enable_infra1" value="false"/>
-
-  	  <arg name="infra2_width"  value="1280"/>
-  	  <arg name="infra2_height" value="720"/>
   	  <arg name="enable_infra2" value="false"/>
 
   	  <arg name="color_width"   value="1280"/>
