@@ -45,7 +45,8 @@
 
   <node pkg="ORB_SLAM2" type="RGBD" name="ORB_SLAM2" 
         args="/home/e4e/workspace/ORB_SLAM2/Vocabulary/ORBvoc.txt 
-         /home/e4e/workspace/ORB_SLAM2/Examples/RGB-D/kinectv1_generic.yaml" cwd="node" output="screen">
+		      /home/e4e/workspace/maya_archaeology/orbslam/launch/kinectv1_generic.yaml"
+		cwd="node" output="screen">
 
     
     <remap from="/camera/rgb/image_raw" to="/camera/rgb/image_rect_color" />

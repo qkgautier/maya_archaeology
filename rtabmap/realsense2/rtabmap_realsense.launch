@@ -5,6 +5,7 @@
 
   <arg name="playback" default="false" />
   <arg name="playback_file" default="" />
+
   <param name="use_sim_time" value="$(arg playback)" />
 
   <node pkg="rosbag" type="record" name="rosbag_record_realsense2"
@@ -20,19 +21,28 @@
               /tf_static"
         if="$(arg record)"/>
 
-  <include file="realsense2.launch" unless="$(arg playback)" />
-  
+  <!-- <arg name="serial_no" value="814412070369" /> -->
+  <include file="$(find realsense2_camera)/launch/includes/nodelet.launch.xml" unless="$(arg playback)">
+	  <arg name="serial_no" value="814412071723" />
+	  <arg name="align_depth" value="true"/>
+	  <arg name="enable_sync" value="true"/>
+	  <arg name="tf_prefix"   value="camera"/>
+  </include>
+
+
+
   <include file="$(find rtabmap_ros)/launch/rtabmap.launch">
-    <arg name="rgb_topic"         value="/color/image_raw" />
-    <arg name="depth_topic"       value="/aligned_depth_to_color/image_raw" />
-    <arg name="camera_info_topic" value="/color/camera_info" />
+	  <arg name="rgb_topic"         value="/color/image_raw" />
+	  <arg name="depth_topic"       value="/aligned_depth_to_color/image_raw" />
+	  <arg name="camera_info_topic" value="/color/camera_info" />
+	  <arg name="database_path"     value="~/.ros/rtabmap.db" />
   </include>
   
-
+  <!--
   <node name="imu_resample_node" pkg="imu_resample"
       type="imu_resample_node" >
   </node>
-
+  -->
 
 
   <group if="$(arg playback)">

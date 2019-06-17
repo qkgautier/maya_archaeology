@@ -3,12 +3,6 @@
   <arg name="record" default="true" />
 
 
-  <arg name="ncamera"      default="/home/e4e/workspace/maya_archaeology/maplab/realsense/ncamera-homee4e.rost265_fisheye2_imu_2019-06-13-17-26-08.yaml"/>
-  <arg name="imu_maplab"   default="/home/e4e/workspace/maya_archaeology/maplab/realsense/imu_parameters_maplab.yaml"/>
-  <arg name="imu_rovio"    default="/home/e4e/workspace/maya_archaeology/maplab/realsense/imu-sigmas-rovio.yaml"/>
-  <arg name="map_output"   default="/home/e4e/workspace/maya_archaeology/maplab/realsense/t265_map"/>
-  <arg name="rviz_config"  default="/home/e4e/workspace/maya_archaeology/maplab/realsense/visualize.rviz"/>
-
   <arg name="serial_no_camera1"    		default="845412110514"/>
   <arg name="serial_no_camera2"    		default="814412071723"/>
   <arg name="camera1"              		default="t265"/>
@@ -28,6 +22,9 @@
   <arg name="topic_odom_in"             default="odom_in"/>
   <arg name="calib_odom_file"           default=""/>
   <arg name="unite_imu_method"          default="linear_interpolation"/>
+  
+  <arg name="frame_id" 				  default="$(arg camera2)_link"/>
+
 
   <group ns="$(arg camera1)">
     <include file="$(find realsense2_camera)/launch/includes/nodelet.launch.xml">
@@ -90,24 +87,24 @@
               /tf_static"
 			  if="$(arg record)"/>
 
+	  
+  <include file="$(find rtabmap_ros)/launch/rtabmap.launch">
+	  <arg name="depth_topic"        value="/$(arg camera2)/aligned_depth_to_color/image_raw"/>
+	  <arg name="frame_id"           value="$(arg frame_id)"/>
+	  <arg name="visual_odometry"    value="false"/>
+	  <!-- Change visual odometry to true, does not currently work-->
+	  <arg name="odom_topic"         value="/$(arg camera1)/odom/sample"/>
+	  <arg name="rgb_topic"          value="/$(arg camera2)/color/image_raw"/>
+	  <arg name="camera_info_topic"  value="/$(arg camera2)/color/camera_info"/>
+	  <arg name="queue_size"         value="10"/>
+	  <arg name="wait_for_transform" value="0.2"/>
+	  <arg name="database_path"      value="~/.ros/rtabmap.db" />
+  </include>
 
+  <!--
   <node pkg="tf" type="static_transform_publisher" name="t265_to_d435" args="0 0 0 0 0 0 /$(arg tf_prefix_camera1)_link /$(arg tf_prefix_camera2)_link 100"/>
+  -->
 
-  <node pkg="rovioli" type="rovioli" name="rovioli"
-        args="--alsologtostderr=1 
-              --v=2 
-              --ncamera_calibration=$(arg ncamera)
-              --imu_parameters_maplab=$(arg imu_maplab)
-              --imu_parameters_rovio=$(arg imu_rovio)
-              --datasource_type='rostopic'
-              --save_map_folder='$(arg map_output)'
-              --map_builder_save_image_as_resources=false 
-              --optimize_map_to_localization_map=false 
-              --feature_tracker_visualize_feature_tracks"
-  />
-
-  <node pkg="rviz" type="rviz" name="rviz"
-        args="-d '$(arg rviz_config)'"/>
 
 
 </launch>
