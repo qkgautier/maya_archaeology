@@ -87,7 +87,6 @@
               /tf_static"
 			  if="$(arg record)"/>
 
-<!--
   <include file="$(find rtabmap_ros)/launch/rtabmap.launch">
 	  <arg name="depth_topic"        value="/$(arg camera2)/aligned_depth_to_color/image_raw"/>
 	  <arg name="frame_id"           value="$(arg frame_id)"/>
@@ -99,20 +98,10 @@
 	  <arg name="wait_for_transform" value="0.2"/>
 	  <arg name="database_path"      value="~/.ros/rtabmap.db" />
   </include>
--->
-
-  <!--
-('Euler:', 0.006663502633053951, -0.012614438176626101, 0.008972260518358161)
-('Translation:', array([ 0.06514997, -0.1039112 , -0.00799598]))
-  
-  <node pkg="tf" type="static_transform_publisher" name="t265_to_d435" args="0 0 0 0 0 0 /$(arg tf_prefix_camera1)_link /$(arg tf_prefix_camera2)_link 100"/>
-  <node pkg="tf" type="static_transform_publisher" name="d435_to_t265" args="0.06514997 -0.1039112 -0.00799598 0 0 0 /$(arg tf_prefix_camera2)_link /$(arg tf_prefix_camera1)_link 100"/>
-  -->
 
   <!-- First is the inverse transform from link to color_optical_frame -->
   <node pkg="tf" type="static_transform_publisher" name="base_to_d435" args="1.49996100e-02 -5.99091613e-05  9.00587392e-05 2.8178421 -1.56447181 -1.25104577 /base_link /d435_link 100"/>
   <!-- Then is the actual transform from t265 to d435 -->
-  <node pkg="tf" type="static_transform_publisher" name="t265_to_base" args="-0.06458858  0.10440756  0.00970517 -0.00919988, -0.00644141,  0.01206209 /t265_fisheye2_optical_frame /base_link 100"/>
-  <!-- Note: it doesn't work -->
+  <node pkg="tf" type="static_transform_publisher" name="t265_to_base" args="-0.06408783  0.10428206  0.00982176 -0.00882525 -0.00891506  0.01324065 /t265_fisheye2_optical_frame /base_link 100"/>
 
 </launch>

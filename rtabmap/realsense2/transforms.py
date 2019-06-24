@@ -8,8 +8,10 @@ q = np.array([0.500, -0.497, 0.502, -0.501])
 
 R = transforms3d.quaternions.quat2mat(q)
 
-print(t)
-print(transforms3d.euler.mat2euler(R))
+print("t", t)
+print("euler", transforms3d.euler.mat2euler(R))
+print("RPY", transforms3d.euler.mat2euler(R))
+print("YPR", np.flip(transforms3d.euler.mat2euler(R)))
 
 Z = [1,1,1]
 
@@ -21,6 +23,7 @@ tinv, Rinv, Zinv, Sinv = transforms3d.affines.decompose44(Ainv)
 
 print("")
 
+print("Inverse")
 print(tinv)
 print("RPY", transforms3d.euler.mat2euler(Rinv))
 print("YPR", np.flip(transforms3d.euler.mat2euler(Rinv)))
@@ -44,7 +47,7 @@ T_t265_d435 = [
 tt, Rt, _, _ = transforms3d.affines.decompose44(T_t265_d435)
 
 print("")
-print("Camera transform")
+print("t265 to d435")
 
 print(tt)
 print("RPY", transforms3d.euler.mat2euler(Rt))
@@ -52,6 +55,14 @@ print("YPR", np.flip(transforms3d.euler.mat2euler(Rt)))
 
 
 
+td, Rd, _, _ = transforms3d.affines.decompose44(T_d435_t265)
+
+print("")
+print("d435 to t265")
+
+print(td)
+print("RPY", transforms3d.euler.mat2euler(Rd))
+print("YPR", np.flip(transforms3d.euler.mat2euler(Rd)))
 
 
 
